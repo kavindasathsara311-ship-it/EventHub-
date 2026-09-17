@@ -1,0 +1,89 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "name": "Demo Organizer",
+      "email": "organizer@eventhub.com",
+      "password": "password123",
+      "role": "organizer"
+    },
+    {
+      "id": "u2",
+      "name": "Demo User",
+      "email": "user@eventhub.com",
+      "password": "password123",
+      "role": "user"
+    }
+  ],
+  "events": [
+    {
+      "id": "e1",
+      "name": "Tech Innovators Summit 2026",
+      "image": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800",
+      "description": "A premier gathering of technology leaders, developers, and visionaries discussing AI, Cloud, and the future of software.",
+      "date": "2026-10-15",
+      "time": "09:00 AM",
+      "location": "Silicon Convention Center, San Francisco",
+      "category": "Technology",
+      "price": 99,
+      "totalSeats": 200,
+      "availableSeats": 195,
+      "organizerId": "u1"
+    },
+    {
+      "id": "e2",
+      "name": "Summer Vibes Music Festival",
+      "image": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800",
+      "description": "Experience live performances by top indie and electronic artists with interactive light shows, gourmet food trucks, and art.",
+      "date": "2026-11-20",
+      "time": "04:00 PM",
+      "location": "Oceanfront Park, Miami",
+      "category": "Music",
+      "price": 149,
+      "totalSeats": 500,
+      "availableSeats": 480,
+      "organizerId": "u1"
+    },
+    {
+      "id": "e3",
+      "name": "Global Leadership Forum",
+      "image": "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800",
+      "description": "Master essential leadership strategies, corporate innovation, and sustainable scaling in a high-impact one-day conference.",
+      "date": "2026-12-05",
+      "time": "10:00 AM",
+      "location": "Grand Plaza Hotel, Chicago",
+      "category": "Business",
+      "price": 199,
+      "totalSeats": 150,
+      "availableSeats": 150,
+      "organizerId": "u1"
+    },
+    {
+      "id": "e4",
+      "name": "Modern Design & Digital Art Expo",
+      "image": "https://images.unsplash.com/photo-1531058240690-006c446962d8?w=800",
+      "description": "Immerse yourself in cutting-edge digital art installations, 3D graphics showcases, and creative workshops.",
+      "date": "2026-12-18",
+      "time": "11:00 AM",
+      "location": "Metropolitan Art Gallery, New York",
+      "category": "Arts",
+      "price": 45,
+      "totalSeats": 100,
+      "availableSeats": 95,
+      "organizerId": "u1"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "b1",
+      "eventId": "e1",
+      "userId": "u2",
+      "attendeeName": "Demo User",
+      "attendeeEmail": "user@eventhub.com",
+      "seats": 5,
+      "totalPrice": 495,
+      "status": "confirmed",
+      "createdAt": "2026-09-17T10:00:00.000Z"
+    }
+  ]
+}
