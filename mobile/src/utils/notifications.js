@@ -1,26 +1,30 @@
-import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
 const isExpoGo = Constants.appOwnership === 'expo' || Constants.executionEnvironment === 'storeClient';
 
-// Configure default notification handler safely for native builds only
-try {
-  if (!isExpoGo && typeof Notifications.setNotificationHandler === 'function') {
-    Notifications.setNotificationHandler({
-      handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: false,
-      }),
-    });
+let Notifications = null;
+
+// Only require expo-notifications in standalone native builds (not in Expo Go sandbox)
+if (!isExpoGo && Platform.OS !== 'web') {
+  try {
+    Notifications = require('expo-notifications');
+    if (Notifications && typeof Notifications.setNotificationHandler === 'function') {
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: false,
+        }),
+      });
+    }
+  } catch (err) {
+    console.log('Notification module load skipped:', err.message);
   }
-} catch (err) {
-  console.log('Notification handler configuration skipped in Expo Go:', err.message);
 }
 
 export const setupNotificationPermissions = async () => {
-  if (isExpoGo || Platform.OS === 'web') return false;
+  if (!Notifications) return false;
   try {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
@@ -36,7 +40,7 @@ export const setupNotificationPermissions = async () => {
 };
 
 export const sendBookingNotification = async (eventName, seatsCount) => {
-  if (isExpoGo || Platform.OS === 'web') return;
+  if (!Notifications) return;
   try {
     await setupNotificationPermissions();
     await Notifications.scheduleNotificationAsync({
@@ -45,7 +49,7 @@ export const sendBookingNotification = async (eventName, seatsCount) => {
         body: `Your booking for "${eventName}" (${seatsCount} seat${seatsCount > 1 ? 's' : ''}) has been successfully confirmed.`,
         data: { eventName, seatsCount },
       },
-      trigger: null, // Deliver immediately
+      trigger: null,
     });
   } catch (error) {
     console.log('Failed to send booking notification:', error.message);
@@ -53,7 +57,7 @@ export const sendBookingNotification = async (eventName, seatsCount) => {
 };
 
 export const sendCancellationNotification = async (eventName) => {
-  if (isExpoGo || Platform.OS === 'web') return;
+  if (!Notifications) return;
   try {
     await setupNotificationPermissions();
     await Notifications.scheduleNotificationAsync({
@@ -62,10 +66,9 @@ export const sendCancellationNotification = async (eventName) => {
         body: `Your booking for "${eventName}" has been cancelled. Your seats have been released.`,
         data: { eventName },
       },
-      trigger: null, // Deliver immediately
+      trigger: null,
     });
   } catch (error) {
     console.log('Failed to send cancellation notification:', error.message);
   }
 };
-
